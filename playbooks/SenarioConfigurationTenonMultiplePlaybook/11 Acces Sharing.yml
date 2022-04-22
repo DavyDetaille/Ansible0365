@@ -1,0 +1,50 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  vars:
+    #11
+    # AS_BccExternalSharingInvitations              : False
+    # AS_EnableGuestSignInAcceleration              : False
+    # AS_NotifyOwnersWhenItemsReshared              : True
+    # AS_PreventExternalUsersFromResharing          : True
+    # AS_ProvisionSharedWithEveryoneFolder          : False
+    # AS_RequireAcceptingAccountMatchInvitedAccount : True
+    # AS_ShowAllUsersClaim                          : False
+    # AS_ShowEveryoneClaim                          : False
+    # AS_ShowEveryoneExceptExternalUsersClaim       : True
+    # AS_ShowPeoplePickerSuggestionsForGuestUsers   : False
+    # AS_DefaultLinkPermission                      : "Edit"
+    # AS_DefaultSharingLinkType                     : "Internal"
+    # AS_SharingCapability                          : "Disabled"
+    # AS_SharingDomainRestrictionMode               : "None"
+    # AS_FileAnonymousLinkType                      : "Edit"
+    # AS_FolderAnonymousLinkType                    : "Edit"
+    # AS_IsSingleInstance                           : "Yes"
+
+  tasks:
+    - name: 11 Acces Sharing
+      devoteam.o365.win_SPOSharingSettings:
+        admin_username                             : "{{ admin_username }}"
+        admin_password                             : "{{ admin_password }}"
+
+        BccExternalSharingInvitations              : "{{ AS_BccExternalSharingInvitations }}"
+        DefaultLinkPermission                      : "{{ AS_DefaultLinkPermission }}"
+        DefaultSharingLinkType                     : "{{ AS_DefaultSharingLinkType }}"
+        EnableGuestSignInAcceleration              : "{{ AS_EnableGuestSignInAcceleration }}"
+        FileAnonymousLinkType                      : "{{ AS_FileAnonymousLinkType }}"
+        FolderAnonymousLinkType                    : "{{ AS_FolderAnonymousLinkType }}"
+        IsSingleInstance                           : "{{ AS_IsSingleInstance }}"
+        NotifyOwnersWhenItemsReshared              : "{{ AS_NotifyOwnersWhenItemsReshared }}"
+        PreventExternalUsersFromResharing          : "{{ AS_PreventExternalUsersFromResharing }}"
+        ProvisionSharedWithEveryoneFolder          : "{{ AS_ProvisionSharedWithEveryoneFolder }}"
+        RequireAcceptingAccountMatchInvitedAccount : "{{ AS_RequireAcceptingAccountMatchInvitedAccount }}"
+        SharingCapability                          : "{{ AS_SharingCapability }}"
+        SharingDomainRestrictionMode               : "{{ AS_SharingDomainRestrictionMode }}"
+        ShowAllUsersClaim                          : "{{ AS_ShowAllUsersClaim }}"
+        ShowEveryoneClaim                          : "{{ AS_ShowEveryoneClaim }}"
+        ShowEveryoneExceptExternalUsersClaim       : "{{ AS_ShowEveryoneExceptExternalUsersClaim }}"
+        ShowPeoplePickerSuggestionsForGuestUsers   : "{{ AS_ShowPeoplePickerSuggestionsForGuestUsers }}"

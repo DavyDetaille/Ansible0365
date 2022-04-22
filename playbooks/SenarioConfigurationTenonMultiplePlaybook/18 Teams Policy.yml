@@ -1,0 +1,33 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   TP_AllowChannelSharingToExternalUser             : True
+  #   TP_AllowOrgWideTeamCreation                      : True
+  #   TP_AllowPrivateChannelCreation                   : True
+  #   TP_AllowPrivateTeamDiscovery                     : True
+  #   TP_AllowSharedChannelCreation                    : True
+  #   TP_AllowUserToParticipateInExternalSharedChannel : True
+  #   TP_Description                                   : Description
+  #   TP_Ensure                                        : Present
+  #   TP_Identity                                      : TestTeamsPolicy
+
+  tasks:
+    - name: 18 win_TeamsChannelsPolicy
+      devoteam.o365.win_TeamsChannelsPolicy:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AllowChannelSharingToExternalUser             : "{{ TP_AllowChannelSharingToExternalUser }}"
+        AllowOrgWideTeamCreation                      : "{{ TP_AllowOrgWideTeamCreation }}"
+        AllowPrivateChannelCreation                   : "{{ TP_AllowPrivateChannelCreation }}"
+        AllowPrivateTeamDiscovery                     : "{{ TP_AllowPrivateTeamDiscovery }}"
+        AllowSharedChannelCreation                    : "{{ TP_AllowSharedChannelCreation }}"
+        AllowUserToParticipateInExternalSharedChannel : "{{ TP_AllowUserToParticipateInExternalSharedChannel }}"
+        Description                                   : "{{ TP_Description }}"
+        Ensure                                        : "{{ TP_Ensure }}"
+        Identity                                      : "{{ TP_Identity }}"

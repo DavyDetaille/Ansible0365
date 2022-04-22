@@ -1,0 +1,75 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+    # Domaine                : Devoteam449.onmicrosoft.com
+    # # Subdomain              : Devoteam449
+
+    # T_Description          : "montest"
+    # T_DisplayName          : "General"
+    # T_Ensure               : "Present"
+    # T_TeamName             : "tigrou"
+
+    # T_AllowAddRemoveApps                : True
+    # T_AllowChannelMentions              : True
+    # T_AllowCreateUpdateChannels         : True
+    # T_AllowCreateUpdateRemoveConnectors : True
+    # T_AllowCreateUpdateRemoveTabs       : True
+    # T_AllowCustomMemes                  : True
+    # T_AllowDeleteChannels               : True
+    # T_AllowGiphy                        : True
+    # T_AllowGuestCreateUpdateChannels    : False
+    # T_AllowGuestDeleteChannels          : False
+    # T_AllowOwnerDeleteMessages          : True
+    # T_AllowStickersAndMemes             : True
+    # T_AllowTeamMentions                 : True
+    # T_AllowUserDeleteMessages           : True
+    # T_AllowUserEditMessages             : True
+    # T_GiphyContentRating                : "moderate"
+    # T_Owner                             : "Tigrou2022"
+    # T_ShowInTeamsSearchAndSuggestions   : True
+    # T_Visibility                        : "Public"
+
+  tasks:
+    - name: 13.1 Creation Teams {{ T_TeamName }}
+      devoteam.o365.win_TeamsChannel:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Description          : "{{ T_Description }}"
+        DisplayName          : "{{ T_DisplayName }}"
+        Ensure               : "{{ T_Ensure }}"
+        TeamName             : "{{ T_TeamName }}"
+
+    - name: 13.2 Creation Teams {{ T_TeamName }}
+      devoteam.o365.win_TeamsTeam:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AllowAddRemoveApps                : "{{ T_AllowAddRemoveApps }}"
+        AllowChannelMentions              : "{{ T_AllowChannelMentions }}"
+        AllowCreateUpdateChannels         : "{{ T_AllowCreateUpdateChannels }}"
+        AllowCreateUpdateRemoveConnectors : "{{ T_AllowCreateUpdateRemoveConnectors }}"
+        AllowCreateUpdateRemoveTabs       : "{{ T_AllowCreateUpdateRemoveTabs }}"
+        AllowCustomMemes                  : "{{ T_AllowCustomMemes }}"
+        AllowDeleteChannels               : "{{ T_AllowDeleteChannels }}"
+        AllowGiphy                        : "{{ T_AllowGiphy }}"
+        AllowGuestCreateUpdateChannels    : "{{ T_AllowGuestCreateUpdateChannels }}"
+        AllowGuestDeleteChannels          : "{{ T_AllowGuestDeleteChannels }}"
+        AllowOwnerDeleteMessages          : "{{ T_AllowOwnerDeleteMessages }}"
+        AllowStickersAndMemes             : "{{ T_AllowStickersAndMemes }}"
+        AllowTeamMentions                 : "{{ T_AllowTeamMentions }}"
+        AllowUserDeleteMessages           : "{{ T_AllowUserDeleteMessages }}"
+        AllowUserEditMessages             : "{{ T_AllowUserEditMessages }}"
+        Description                       : "{{ T_Description }}"
+        DisplayName                       : "{{ T_TeamName }}"
+        Ensure                            : "{{ T_Ensure }}"
+        GiphyContentRating                : "{{ T_GiphyContentRating }}"
+        MailNickName                      : "{{ T_TeamName }}"
+        Owner                             : "{{ T_Owner }}@{{ Domaine }}"
+        ShowInTeamsSearchAndSuggestions   : "{{ T_ShowInTeamsSearchAndSuggestions }}"
+        Visibility                        : "{{ T_Visibility }}"

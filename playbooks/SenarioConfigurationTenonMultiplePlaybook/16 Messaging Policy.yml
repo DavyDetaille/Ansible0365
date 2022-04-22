@@ -1,0 +1,63 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   MP_AllowGiphy                    : True
+  #   MP_AllowImmersiveReader          : True
+  #   MP_AllowMemes                    : True
+  #   MP_AllowOwnerDeleteMessage       : True
+  #   MP_AllowPriorityMessages         : True
+  #   MP_AllowRemoveUser               : True
+  #   MP_AllowStickers                 : True
+  #   MP_AllowUrlPreviews              : True
+  #   MP_AllowUserChat                 : True
+  #   MP_AllowUserDeleteMessage        : True
+  #   MP_AllowUserEditMessage          : True
+  #   MP_AllowUserTranslation          : True
+  #   MP_AudioMessageEnabledType       : ChatsAndChannels
+  #   MP_ChannelsInChatListEnabledType : DisabledUserOverride
+  #   MP_Description                   : Description
+  #   MP_Ensure                        : Present
+  #   MP_GiphyRatingType               : Moderate
+  #   MP_Identity                      : TestMessagingPolicy
+  #   MP_ReadReceiptsEnabledType       : UserPreference
+
+
+
+  tasks:
+    - name: 16 win_TeamsMessagingPolicy
+      devoteam.o365.win_TeamsMessagingPolicy:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AllowGiphy                    : "{{ MP_AllowGiphy }}"
+        AllowImmersiveReader          : "{{ MP_AllowImmersiveReader }}"
+        AllowMemes                    : "{{ MP_AllowMemes }}"
+        AllowOwnerDeleteMessage       : "{{ MP_AllowOwnerDeleteMessage }}"
+        AllowPriorityMessages         : "{{ MP_AllowPriorityMessages }}"
+        AllowRemoveUser               : "{{ MP_AllowRemoveUser }}"
+        AllowStickers                 : "{{ MP_AllowStickers }}"
+        AllowUrlPreviews              : "{{ MP_AllowUrlPreviews }}"
+        AllowUserChat                 : "{{ MP_AllowUserChat }}"
+        AllowUserDeleteMessage        : "{{ MP_AllowUserDeleteMessage }}"
+        AllowUserEditMessage          : "{{ MP_AllowUserEditMessage }}"
+        AllowUserTranslation          : "{{ MP_AllowUserTranslation }}"
+        AudioMessageEnabledType       : "{{ MP_AudioMessageEnabledType }}"
+        ChannelsInChatListEnabledType : "{{ MP_ChannelsInChatListEnabledType }}"
+        Description                   : "{{ MP_Description }}"
+        Ensure                        : "{{ MP_Ensure }}"
+        GiphyRatingType               : "{{ MP_GiphyRatingType }}"
+        Identity                      : "{{ MP_Identity }}"
+        ReadReceiptsEnabledType       : "{{ MP_ReadReceiptsEnabledType }}"
+
+      register: output
+
+    - name:
+      debug:
+        msg: "{{ output }}"
+
+

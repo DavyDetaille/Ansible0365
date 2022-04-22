@@ -1,0 +1,145 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  vars:
+    Domaine                : Devoteam449.onmicrosoft.com
+    Subdomain              : Devoteam449
+
+    # #12.1
+    # ST_Title                                       : "trouloulou"
+    # ST_AllowSelfServiceUpgrade                     : True
+    # ST_AnonymousLinkExpirationInDays               : 0
+    # ST_CommentsOnSitePagesDisabled                 : False
+    # ST_DefaultLinkPermission                       : "None"
+    # ST_DefaultSharingLinkType                      : "None"
+    # ST_DenyAddAndCustomizePages                    : True
+    # ST_DisableAppViews                             : "NotDisabled"
+    # ST_DisableCompanyWideSharingLinks              : "NotDisabled"
+    # ST_DisableFlows                                : False
+    # ST_Ensure                                      : "Present"
+    # ST_LocaleId                                    : 1036
+    # ST_OverrideTenantAnonymousLinkExpirationPolicy : False
+    # ST_SharingCapability                           : "Disabled"
+    # ST_ShowPeoplePickerSuggestionsForGuestUsers    : False
+    # ST_SocialBarOnSitePagesDisabled                : False
+    # ST_StorageMaximumLevel                         : 1048576
+    # ST_StorageWarningLevel                         : 1022361
+    # ST_Template                                    : "GROUP#0"
+    # ST_TimeZoneId                                  : 13
+    ST_Owner                                       : "{{ ST_Title }}@{{ Domaine }}"
+    ST_Url                                         : "https://Devoteam449.sharepoint.com/sites/{{ ST_Title }}"
+
+    # #12.2
+    # ST_AuditFlags : "None"
+
+    # #12.3
+    # ST_Identity_3         : "Administration des clients - Membres"
+    # ST_PermissionLevels_3 : "Contribute"
+
+    # #12.4
+    # ST_Identity_4         : "Administration des clients - Visiteurs"
+    # ST_PermissionLevels_4 : "Read"
+
+    # #12.5
+    # ST_Identity_5         : "Contributors"
+    # ST_PermissionLevels_5 : "Contribute"
+
+    # #12.6
+    # ST_Identity_6         : "Propriétaires de Administration des clients"
+    # ST_PermissionLevels_6 : "Full Control"
+
+    # #12.7
+    # ST_Identity_7         : "Viewers"
+    # ST_PermissionLevels_7 : "Read, Limited Access"
+
+
+  tasks:
+    - name: 12.1 Creation sites {{ ST_Title }}
+      devoteam.o365.win_SPOSite:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AllowSelfServiceUpgrade                     : "{{ ST_AllowSelfServiceUpgrade }}"
+        AnonymousLinkExpirationInDays               : "{{ ST_AnonymousLinkExpirationInDays }}"
+        CommentsOnSitePagesDisabled                 : "{{ ST_CommentsOnSitePagesDisabled }}"
+        DefaultLinkPermission                       : "{{ ST_DefaultLinkPermission }}"
+        DefaultSharingLinkType                      : "{{ ST_DefaultSharingLinkType }}"
+        DenyAddAndCustomizePages                    : "{{ ST_DenyAddAndCustomizePages }}"
+        DisableAppViews                             : "{{ ST_DisableAppViews }}"
+        DisableCompanyWideSharingLinks              : "{{ ST_DisableCompanyWideSharingLinks }}"
+        DisableFlows                                : "{{ ST_DisableFlows }}"
+        Ensure                                      : "{{ ST_Ensure }}"
+        LocaleId                                    : "{{ ST_LocaleId }}"
+        OverrideTenantAnonymousLinkExpirationPolicy : "{{ ST_OverrideTenantAnonymousLinkExpirationPolicy }}"
+        Owner                                       : "{{ ST_Owner }}"
+        SharingCapability                           : "{{ ST_SharingCapability }}"
+        ShowPeoplePickerSuggestionsForGuestUsers    : "{{ ST_ShowPeoplePickerSuggestionsForGuestUsers }}"
+        SocialBarOnSitePagesDisabled                : "{{ ST_SocialBarOnSitePagesDisabled }}"
+        StorageMaximumLevel                         : "{{ ST_StorageMaximumLevel }}"
+        StorageWarningLevel                         : "{{ ST_StorageWarningLevel }}"
+        Template                                    : "{{ ST_Template }}"
+        TimeZoneId                                  : "{{ ST_TimeZoneId }}"
+        Title                                       : "{{ ST_Title }}"
+        Url                                         : "{{ ST_Url }}"
+
+    - name: 12.2 Creation sites {{ ST_Title }}
+      devoteam.o365.win_SPOSiteAuditSettings:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AuditFlags           : "{{ ST_AuditFlags }}"
+        Url                  : "{{ ST_Url }}"
+
+    - name: 12.3 Creation sites {{ ST_Title }}
+      devoteam.o365.win_SPOSiteGroup:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Ensure               : "{{ ST_Ensure }}"
+        Identity             : "{{ ST_Identity_3 }}"
+        PermissionLevels     : "{{ ST_PermissionLevels_3 }}"
+        Url                  : "{{ ST_Url }}"
+
+    - name: 12.4 Creation sites {{ ST_Title }}
+      devoteam.o365.win_SPOSiteGroup:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Ensure               : "{{ ST_Ensure }}"
+        Identity             : "{{ ST_Identity_4 }}"
+        PermissionLevels     : "{{ ST_PermissionLevels_4 }}"
+        Url                  : "{{ ST_Url }}"
+
+    - name: 12.5 Creation sites {{ ST_Title }}
+      devoteam.o365.win_SPOSiteGroup:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Ensure               : "{{ ST_Ensure }}"
+        Identity             : "{{ ST_Identity_5 }}"
+        PermissionLevels     : "{{ ST_PermissionLevels_5 }}"
+        Url                  : "{{ ST_Url }}"
+
+    - name: 12.6 Creation sites {{ ST_Title }}
+      devoteam.o365.win_SPOSiteGroup:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Ensure               : "{{ ST_Ensure }}"
+        Identity             : "{{ ST_Identity_6 }}"
+        PermissionLevels     : "{{ ST_PermissionLevels_6 }}"
+        Url                  : "{{ ST_Url }}"
+
+    - name: 12.7 Creation sites {{ ST_Title }}
+      devoteam.o365.win_SPOSiteGroup:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Ensure               : "{{ ST_Ensure }}"
+        Identity             : "{{ ST_Identity_7 }}"
+        PermissionLevels     : "{{ ST_PermissionLevels_7 }}"
+        Url                  : "{{ ST_Url }}"

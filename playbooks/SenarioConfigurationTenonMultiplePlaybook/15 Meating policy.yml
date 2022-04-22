@@ -1,0 +1,99 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  vars:
+    # MP_AllowAnonymousUsersToDialOut               : False
+    # MP_AllowAnonymousUsersToStartMeeting          : False
+    # MP_AllowBreakoutRooms                         : True
+    # MP_AllowChannelMeetingScheduling              : True
+    # MP_AllowCloudRecording                        : True
+    # MP_AllowEngagementReport                      : "Enabled"
+    # MP_AllowExternalParticipantGiveRequestControl : False
+    # MP_AllowIPAudio                               : True
+    # MP_AllowIPVideo                               : True
+    # MP_AllowMeetingReactions                      : True
+    # MP_AllowMeetNow                               : True
+    # MP_AllowNDIStreaming                          : False
+    # MP_AllowOrganizersToOverrideLobbySettings     : False
+    # MP_AllowOutlookAddIn                          : True
+    # MP_AllowParticipantGiveRequestControl         : True
+    # MP_AllowPowerPointSharing                     : True
+    # MP_AllowPrivateMeetingScheduling              : True
+    # MP_AllowPrivateMeetNow                        : True
+    # MP_AllowPSTNUsersToBypassLobby                : False
+    # MP_AllowRecordingStorageOutsideRegion         : False
+    # MP_AllowSharedNotes                           : True
+    # MP_AllowTranscription                         : False
+    # MP_AllowUserToJoinExternalMeeting             : "Disabled"
+    # MP_AllowWhiteboard                            : True
+    # MP_AutoAdmittedUsers                          : "EveryoneInCompany"
+    # MP_Description                                : "description"
+    # MP_DesignatedPresenterRoleMode                : "EveryoneUserOverride"
+    # MP_EnrollUserOverride                         : "Disabled"
+    # MP_Ensure                                     : "Present"
+    # MP_Identity                                   : "testPolicies"
+    # MP_IPAudioMode                                : "EnabledOutgoingIncoming"
+    # MP_IPVideoMode                                : "EnabledOutgoingIncoming"
+    # MP_LiveCaptionsEnabledType                    : "DisabledUserOverride"
+    # MP_MediaBitRateKb                             : 50000
+    # MP_MeetingChatEnabledType                     : "Enabled"
+    # MP_PreferredMeetingProviderForIslandsMode     : "TeamsAndSfb"
+    # MP_RecordingStorageMode                       : "OneDriveForBusiness"
+    # MP_ScreenSharingMode                          : "EntireScreen"
+    # MP_StreamingAttendeeMode                      : "Disabled"
+    # MP_TeamsCameraFarEndPTZMode                   : "Disabled"
+    # MP_VideoFiltersMode                           : "AllFilters"
+    # MP_WhoCanRegister                             : "Everyone"
+
+  tasks:
+    - name: 15 Meting policy
+      devoteam.o365.win_TeamsMeetingPolicy:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AllowAnonymousUsersToDialOut               : "{{ MP_AllowAnonymousUsersToDialOut }}"
+        AllowAnonymousUsersToStartMeeting          : "{{ MP_AllowAnonymousUsersToStartMeeting }}"
+        AllowBreakoutRooms                         : "{{ MP_AllowBreakoutRooms }}"
+        AllowChannelMeetingScheduling              : "{{ MP_AllowChannelMeetingScheduling }}"
+        AllowCloudRecording                        : "{{ MP_AllowCloudRecording }}"
+        AllowEngagementReport                      : "{{ MP_AllowEngagementReport }}"
+        AllowExternalParticipantGiveRequestControl : "{{ MP_AllowExternalParticipantGiveRequestControl }}"
+        AllowIPAudio                               : "{{ MP_AllowIPAudio }}"
+        AllowIPVideo                               : "{{ MP_AllowIPVideo }}"
+        AllowMeetingReactions                      : "{{ MP_AllowMeetingReactions }}"
+        AllowMeetNow                               : "{{ MP_AllowMeetNow }}"
+        AllowNDIStreaming                          : "{{ MP_AllowNDIStreaming }}"
+        AllowOrganizersToOverrideLobbySettings     : "{{ MP_AllowOrganizersToOverrideLobbySettings }}"
+        AllowOutlookAddIn                          : "{{ MP_AllowOutlookAddIn }}"
+        AllowParticipantGiveRequestControl         : "{{ MP_AllowParticipantGiveRequestControl }}"
+        AllowPowerPointSharing                     : "{{ MP_AllowPowerPointSharing }}"
+        AllowPrivateMeetingScheduling              : "{{ MP_AllowPrivateMeetingScheduling }}"
+        AllowPrivateMeetNow                        : "{{ MP_AllowPrivateMeetNow }}"
+        AllowPSTNUsersToBypassLobby                : "{{ MP_AllowPSTNUsersToBypassLobby }}"
+        AllowRecordingStorageOutsideRegion         : "{{ MP_AllowRecordingStorageOutsideRegion }}"
+        AllowSharedNotes                           : "{{ MP_AllowSharedNotes }}"
+        AllowTranscription                         : "{{ MP_AllowTranscription }}"
+        AllowUserToJoinExternalMeeting             : "{{ MP_AllowUserToJoinExternalMeeting }}"
+        AllowWhiteboard                            : "{{ MP_AllowWhiteboard }}"
+        AutoAdmittedUsers                          : "{{ MP_AutoAdmittedUsers }}"
+        Description                                : "{{ MP_Description }}"
+        DesignatedPresenterRoleMode                : "{{ MP_DesignatedPresenterRoleMode }}"
+        EnrollUserOverride                         : "{{ MP_EnrollUserOverride }}"
+        Ensure                                     : "{{ MP_Ensure }}"
+        Identity                                   : "{{ MP_Identity }}"
+        IPAudioMode                                : "{{ MP_IPAudioMode }}"
+        IPVideoMode                                : "{{ MP_IPVideoMode }}"
+        LiveCaptionsEnabledType                    : "{{ MP_LiveCaptionsEnabledType }}"
+        MediaBitRateKb                             : "{{ MP_MediaBitRateKb }}"
+        MeetingChatEnabledType                     : "{{ MP_MeetingChatEnabledType }}"
+        PreferredMeetingProviderForIslandsMode     : "{{ MP_PreferredMeetingProviderForIslandsMode }}"
+        RecordingStorageMode                       : "{{ MP_RecordingStorageMode }}"
+        ScreenSharingMode                          : "{{ MP_ScreenSharingMode }}"
+        StreamingAttendeeMode                      : "{{ MP_StreamingAttendeeMode }}"
+        TeamsCameraFarEndPTZMode                   : "{{ MP_TeamsCameraFarEndPTZMode }}"
+        VideoFiltersMode                           : "{{ MP_VideoFiltersMode }}"
+        WhoCanRegister                             : "{{ MP_WhoCanRegister }}"

@@ -1,0 +1,86 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   Domaine                : Devoteam449.onmicrosoft.com
+
+  #   #6
+  #   APP_AuthenticationFailAction            : "MoveToJmf"
+  #   APP_Enabled                             : True
+  #   APP_EnableFirstContactSafetyTips        : True
+  #   APP_EnableMailboxIntelligence           : True
+  #   APP_EnableMailboxIntelligenceProtection : True
+  #   APP_EnableOrganizationDomainsProtection : True
+  #   APP_EnableSimilarDomainsSafetyTips      : False
+  #   APP_EnableSimilarUsersSafetyTips        : False
+  #   APP_EnableSpoofIntelligence             : True
+  #   APP_EnableTargetedDomainsProtection     : False
+  #   APP_EnableTargetedUserProtection        : True
+  #   APP_EnableUnauthenticatedSender         : True
+  #   APP_EnableUnusualCharactersSafetyTips   : False
+  #   APP_EnableViaTag                        : True
+  #   APP_Ensure                              : "Present"
+  #   APP_Identity                            : "4.7 Ensure that an anti-phishing policy has been created"
+  #   APP_ImpersonationProtectionState        : "Manual"
+  #   APP_MailboxIntelligenceProtectionAction : "Quarantine"
+  #   APP_MakeDefault                         : False
+  #   APP_PhishThresholdLevel                 : 2
+  #   APP_TargetedUserProtectionAction        : "Quarantine"
+
+  #   APP_Priority        : 0
+  #   APP_SentToMemberOf  : "Devoteam"
+
+
+  tasks:
+    - name: 6 Anti-phishing policy
+      devoteam.o365.win_EXOAntiPhishPolicy:
+        admin_username                                : "{{ admin_username }}"
+        admin_password                                : "{{ admin_password }}"
+
+        AuthenticationFailAction                      : "{{ APP_AuthenticationFailAction }}"
+        Enabled                                       : "{{ APP_Enabled }}"
+        EnableFirstContactSafetyTips                  : "{{ APP_EnableFirstContactSafetyTips }}"
+        EnableMailboxIntelligence                     : "{{ APP_EnableMailboxIntelligence }}"
+        EnableMailboxIntelligenceProtection           : "{{ APP_EnableMailboxIntelligenceProtection }}"
+        EnableOrganizationDomainsProtection           : "{{ APP_EnableOrganizationDomainsProtection }}"
+        EnableSimilarDomainsSafetyTips                : "{{ APP_EnableSimilarDomainsSafetyTips }}"
+        EnableSimilarUsersSafetyTips                  : "{{ APP_EnableSimilarUsersSafetyTips }}"
+        EnableSpoofIntelligence                       : "{{ APP_EnableSpoofIntelligence }}"
+        EnableTargetedDomainsProtection               : "{{ APP_EnableTargetedDomainsProtection }}"
+        EnableTargetedUserProtection                  : "{{ APP_EnableTargetedUserProtection }}"
+        EnableUnauthenticatedSender                   : "{{ APP_EnableUnauthenticatedSender }}"
+        EnableUnusualCharactersSafetyTips             : "{{ APP_EnableUnusualCharactersSafetyTips }}"
+        EnableViaTag                                  : "{{ APP_EnableViaTag }}"
+        Ensure                                        : "{{ APP_Ensure }}"
+        Identity                                      : "{{ APP_Identity }}"
+        ImpersonationProtectionState                  : "{{ APP_ImpersonationProtectionState }}"
+        MailboxIntelligenceProtectionAction           : "{{ APP_MailboxIntelligenceProtectionAction }}"
+        MakeDefault                                   : "{{ APP_MakeDefault }}"
+        PhishThresholdLevel                           : "{{ APP_PhishThresholdLevel }}"
+        TargetedUserProtectionAction                  : "{{ APP_TargetedUserProtectionAction }}"
+
+        AdminDisplayName                              : "" # "{{ APP_AdminDisplayName }}"
+        TargetedDomainActionRecipients                :  # "{{ APP_TargetedDomainActionRecipients }}"
+        TargetedDomainsToProtect                      :  # "{{ APP_TargetedDomainsToProtect }}"
+        TargetedUserActionRecipients                  :  # "{{ APP_TargetedUserActionRecipients }}"
+        TargetedUsersToProtect                        :  # "{{ APP_TargetedUsersToProtect }}"
+        MailboxIntelligenceProtectionActionRecipients :  # "{{ APP_MailboxIntelligenceProtectionActionRecipients }}"
+        ExcludedDomains                               :  # "{{ APP_ExcludedDomains }}"
+        ExcludedSenders                               :  # "{{ APP_ExcludedSenders }}"
+
+    - name: 6 Anti-phishing policy
+      devoteam.o365.win_EXOAntiPhishRule:
+        admin_username                                : "{{ admin_username }}"
+        admin_password                                : "{{ admin_password }}"
+
+        AntiPhishPolicy                               : "{{ APP_Identity }}"
+        Identity                                      : "{{ APP_Identity }}"
+        Enabled                                       : "{{ APP_Enabled }}"
+        Ensure                                        : "{{ APP_Ensure }}"
+
+        Priority                                      : "{{ APP_Priority }}"
+        SentToMemberOf                                : "{{ APP_SentToMemberOf }}@{{ Domaine }}"

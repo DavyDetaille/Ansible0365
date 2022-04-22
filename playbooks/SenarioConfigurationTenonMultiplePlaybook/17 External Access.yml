@@ -1,0 +1,28 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+    # Domaine                : Devoteam449.onmicrosoft.com
+    # # Subdomain              : Devoteam449
+
+    # EA_AllowFederatedUsers       : True
+    # EA_AllowPublicUsers          : True
+    # EA_AllowTeamsConsumer        : True
+    # EA_AllowTeamsConsumerInbound : True
+    # EA_Identity                  : "Global"
+
+  tasks:
+    - name: 17 win_TeamsFederationConfiguration
+      devoteam.o365.win_TeamsFederationConfiguration:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AllowFederatedUsers       : "{{ EA_AllowFederatedUsers }}"
+        AllowPublicUsers          : "{{ EA_AllowPublicUsers }}"
+        AllowTeamsConsumer        : "{{ EA_AllowTeamsConsumer }}"
+        AllowTeamsConsumerInbound : "{{ EA_AllowTeamsConsumerInbound }}"
+        Identity                  : "{{ EA_Identity }}"

@@ -1,0 +1,60 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   Domaine                : Devoteam449.onmicrosoft.com
+
+  #   # 3
+  #   BreakingGlassGroupName  : BreakingGlass
+
+  #   # 4
+  #   EMA_Ensure             : "Present"
+  #   EMA_ExcludeGroups      : 
+  #   EMA_ExcludeUsers       : 
+  #   EMA_DisplayName        : "1.1.2 Ensure multifactor authentication is enabled for all users in all roles"
+  #   EMA_ClientAppTypes     : "all"
+  #   EMA_BuiltInControls    : "mfa"
+  #   EMA_IncludeUsers       : "All"
+
+  tasks:
+    - name: 4 Ensure multifactor authentication
+      devoteam.o365.win_AADConditionalAccessPolicy:
+        admin_username                           : "{{ admin_username }}"
+        admin_password                           : "{{ admin_password }}"
+
+        Ensure                                   : "{{ EMA_Ensure }}"
+        ExcludeGroups                            : "{{ BreakingGlassGroupName }},{{ EMA_ExcludeGroups }}"
+        ExcludeUsers                             : "{{ EMA_ExcludeUsers }}"
+        DisplayName                              : "{{ EMA_DisplayName }}"
+        ClientAppTypes                           : "{{ EMA_ClientAppTypes }}"
+        BuiltInControls                          : "{{ EMA_BuiltInControls }}"
+        IncludeUsers                             : "{{ EMA_IncludeUsers }}"
+
+        ApplicationEnforcedRestrictionsIsEnabled : False
+        CloudAppSecurityIsEnabled                : False
+        GrantControlOperator                     : OR
+        IncludeApplications                      : None
+        PersistentBrowserIsEnabled               : False
+        SignInFrequencyIsEnabled                 : False
+        State                                    : enabled
+
+        CloudAppSecurityType                     : "" # "{{ EMA_CloudAppSecurityType }}"
+        ExcludeApplications                      : # "{{ EMA_ExcludeApplications }}"
+        ExcludeDevices                           : # "{{ EMA_ExcludeDevices }}"
+        ExcludeLocations                         : # "{{ EMA_ExcludeLocations }}"
+        ExcludePlatforms                         : # "{{ EMA_ExcludePlatforms }}"
+        ExcludeRoles                             : # "{{ EMA_ExcludeRoles }}"
+        IncludeDevices                           : # "{{ EMA_IncludeDevices }}"
+        IncludeGroups                            : # "{{ EMA_IncludeGroups }}"
+        IncludeLocations                         : # "{{ EMA_IncludeLocations }}"
+        IncludePlatforms                         : # "{{ EMA_IncludePlatforms }}"
+        IncludeRoles                             : # "{{ EMA_IncludeRoles }}"
+        IncludeUserActions                       : # "{{ EMA_IncludeUserActions }}"
+        PersistentBrowserMode                    : "" # "{{ EMA_PersistentBrowserMode }}"
+        SignInFrequencyType                      : "" # "{{ EMA_SignInFrequencyType }}"
+        SignInRiskLevels                         : # "{{ EMA_SignInRiskLevels }}"
+        UserRiskLevels                           : # "{{ EMA_UserRiskLevels }}"

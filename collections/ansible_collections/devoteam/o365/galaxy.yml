@@ -1,0 +1,18 @@
+namespace: devoteam
+name: o365
+version: 1.0.0
+readme: README.md
+authors:
+- "Julien Louveau julien.louveau@devoteam.lu"
+description: Microsot Office 365 config
+license:
+- GPL-2.0-or-later
+license_file: ''
+tags:
+- windows
+- Office_365
+dependencies: {}
+repository: https://devoteam-lu@dev.azure.com/devoteam-lu/Devoteam - Ansible-O365/_git/ansible-o365
+documentation: ''
+homepage: ''
+issues: ''

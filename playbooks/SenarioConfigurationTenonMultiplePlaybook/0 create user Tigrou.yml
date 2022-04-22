@@ -1,0 +1,26 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   Domaine                : Devoteam449.onmicrosoft.com
+
+  #   # 0
+  #   UserName: Tigrou
+  #   Password: UoiiHhq65102HxsgUu2Y
+
+  tasks:
+    - name: 0 create user "{{ UserName }}"
+      devoteam.o365.win_O365User:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+        Ensure               : Present
+        UserPrincipalName    : "{{ UserName }}@{{ Domaine }}"
+        DisplayName          : "{{ UserName }}"
+        FirstName            : "{{ UserName }}"
+        LastName             : "{{ UserName }}"
+        Password             : "{{ Password }}"
+        UserType             : Member

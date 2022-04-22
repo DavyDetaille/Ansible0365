@@ -1,0 +1,405 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../vars/vault.yml
+    - ../vars/vars.yml
+
+  vars:
+    Domaine                : Devoteam449.onmicrosoft.com
+
+    # 1
+    BreakingGlassUserNameOne: BreakingGlass1
+    BreakingGlassPasswordOne: UoiiHhq65102HxsgUu2Y
+
+    # 2
+    BreakingGlassUserNameTwo: BreakingGlass2
+    BreakingGlassPasswordTwo: GnillLvAacjH3P8G4fhR
+
+    # 3
+    BreakingGlassGroupName  : BreakingGlass
+
+    # 4
+    EMA_Ensure             : "Present"
+    EMA_ExcludeGroups      : 
+    EMA_ExcludeUsers       : 
+    EMA_DisplayName        : "1.1.2 Ensure multifactor authentication is enabled for all users in all roles"
+    EMA_ClientAppTypes     : "all"
+    EMA_BuiltInControls    : "mfa"
+    EMA_IncludeUsers       : "All"
+
+    # 5
+    BLA_Ensure             : "Present"
+    BLA_ExcludeGroups      : 
+    BLA_ExcludeUsers       : 
+    BLA_DisplayName        : "1.1.6 Enable Conditional Access policies to block legacy authentication"
+    BLA_ClientAppTypes     : "exchangeActiveSync, other"
+    BLA_BuiltInControls    : "block"
+    BLA_IncludeUsers       : "All"
+
+    #6
+    APP_AuthenticationFailAction            : "MoveToJmf"
+    APP_Enabled                             : True
+    APP_EnableFirstContactSafetyTips        : True
+    APP_EnableMailboxIntelligence           : True
+    APP_EnableMailboxIntelligenceProtection : True
+    APP_EnableOrganizationDomainsProtection : True
+    APP_EnableSimilarDomainsSafetyTips      : False
+    APP_EnableSimilarUsersSafetyTips        : False
+    APP_EnableSpoofIntelligence             : True
+    APP_EnableTargetedDomainsProtection     : False
+    APP_EnableTargetedUserProtection        : True
+    APP_EnableUnauthenticatedSender         : True
+    APP_EnableUnusualCharactersSafetyTips   : False
+    APP_EnableViaTag                        : True
+    APP_Ensure                              : "Present"
+    APP_Identity                            : "4.7 Ensure that an anti-phishing policy has been created"
+    APP_ImpersonationProtectionState        : "Manual"
+    APP_MailboxIntelligenceProtectionAction : "Quarantine"
+    APP_MakeDefault                         : False
+    APP_PhishThresholdLevel                 : 2
+    APP_TargetedUserProtectionAction        : "Quarantine"
+
+    APP_Priority        : 0
+    APP_SentToMemberOf  : "Devoteam"
+
+    #7
+    SAP_Action               : "DynamicDelivery"
+    SAP_ActionOnError        : True
+    SAP_AdminDisplayName     : "2.4 Ensure Safe Attachments for SharePoint, OneDrive, and Microsoft Teams is Enabled"
+    SAP_Enable               : True
+    SAP_Ensure               : "Present"
+    SAP_Identity             : "2.4 Ensure Safe Attachments for SharePoint, OneDrive,... Enabled"
+    SAP_Redirect             : True
+    SAP_RedirectAddress      : "Tigrou2022"
+
+    SAP_Enabled              : True
+    SAP_Priority             : 0
+    SAP_SentToMemberOf       : "Devoteam"
+
+    #8
+    MFP_Action                                 : "DeleteAttachmentAndUseCustomAlert"
+    MFP_CustomAlertText                        : "This email contain a malware"
+    MFP_CustomNotifications                    : False
+    MFP_EnableExternalSenderAdminNotifications : False
+    MFP_EnableExternalSenderNotifications      : False
+    MFP_EnableFileFilter                       : True
+    MFP_EnableInternalSenderAdminNotifications : False
+    MFP_EnableInternalSenderNotifications      : True
+    MFP_Ensure                                 : "Present"
+    MFP_FileTypes                              : "ace, ani, app, cab, docm, exe, iso, jar, jnlp, reg, scr, vbe, vbs"
+    MFP_Identity                               : "Anti-malware filtre Policy"
+    MFP_MakeDefault                            : False
+    MFP_ZapEnabled                             : True
+
+    MFP_Priority             : 0
+    MFP_SentToMemberOf       : "Devoteam"
+
+    #9
+    EAP_EnabledEmailAddressTemplates      : "SMTP:@{{ Domaine }}"
+    EAP_EnabledPrimarySMTPAddressTemplate : "@{{ Domaine }}"
+    EAP_Ensure                            : "Present"
+    EAP_ManagedByFilter                   : ""
+    EAP_Name                              : "Email address policy"
+    EAP_Priority                          : "Lowest"
+
+  tasks:
+    - name: 1 create user "{{ BreakingGlassUserNameOne }}"
+      devoteam.o365.win_O365User:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+        Ensure               : Present
+        UserPrincipalName    : "{{ BreakingGlassUserNameOne }}@{{ Domaine }}"
+        DisplayName          : "{{ BreakingGlassUserNameOne }}"
+        FirstName            : "{{ BreakingGlassUserNameOne }}"
+        LastName             : "{{ BreakingGlassUserNameOne }}"
+        Password             : "{{ BreakingGlassPasswordOne }}"
+        UserType             : Member
+      register: output
+
+    - name: output user "{{ BreakingGlassUserNameOne }}"
+      debug:
+        msg: "{{ output }}"
+
+    - name: 2 create user "{{ BreakingGlassUserNameTwo }}"
+      devoteam.o365.win_O365User:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+        Ensure               : Present
+        UserPrincipalName    : "{{ BreakingGlassUserNameTwo }}@{{ Domaine }}"
+        DisplayName          : "{{ BreakingGlassUserNameTwo }}"
+        FirstName            : "{{ BreakingGlassUserNameTwo }}"
+        LastName             : "{{ BreakingGlassUserNameTwo }}"
+        Password             : "{{ BreakingGlassPasswordTwo }}"
+        UserType             : Member
+      register: output
+
+    - name: output user "{{ BreakingGlassUserNameTwo }}"
+      debug:
+        msg: "{{ output }}"
+
+    - name: 3 create group "{{ BreakingGlassGroupName }}"
+      devoteam.o365.win_AADGroup:
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
+        Ensure        : Present
+
+        Description                   : This is the group for breaking glass user
+        DisplayName                   : "{{ BreakingGlassGroupName }}"
+        GroupTypes                    : "DynamicMembership"
+        MailEnabled                   : False
+        MailNickname                  : "{{ BreakingGlassGroupName }}"
+        MembershipRule                : ((user.userPrincipalName -eq "{{ BreakingGlassUserNameOne }}@{{ Domaine }}") and (user.displayName -eq "{{ BreakingGlassUserNameOne }}")) or ((user.userPrincipalName -eq "{{ BreakingGlassUserNameTwo }}@{{ Domaine }}") and (user.displayName -eq "{{ BreakingGlassUserNameTwo }}"))
+        MembershipRuleProcessingState : "On"
+        SecurityEnabled               : True
+
+        Visibility                    : Private
+      register: output
+
+    - name: output group "{{ BreakingGlassGroupName }}"
+      debug:
+        msg: "{{ output }}"
+
+    - name: 4 Ensure multifactor authentication
+      devoteam.o365.win_AADConditionalAccessPolicy:
+        admin_username                           : "{{ admin_username }}"
+        admin_password                           : "{{ admin_password }}"
+
+        Ensure                                   : "{{ EMA_Ensure }}"
+        ExcludeGroups                            : "{{ BreakingGlassGroupName }},{{ EMA_ExcludeGroups }}"
+        ExcludeUsers                             : "{{ EMA_ExcludeUsers }}"
+        DisplayName                              : "{{ EMA_DisplayName }}"
+        ClientAppTypes                           : "{{ EMA_ClientAppTypes }}"
+        BuiltInControls                          : "{{ EMA_BuiltInControls }}"
+        IncludeUsers                             : "{{ EMA_IncludeUsers }}"
+
+        ApplicationEnforcedRestrictionsIsEnabled : False
+        CloudAppSecurityIsEnabled                : False
+        GrantControlOperator                     : OR
+        IncludeApplications                      : None
+        PersistentBrowserIsEnabled               : False
+        SignInFrequencyIsEnabled                 : False
+        State                                    : enabled
+
+        CloudAppSecurityType                     : "" # "{{ EMA_CloudAppSecurityType }}"
+        ExcludeApplications                      : # "{{ EMA_ExcludeApplications }}"
+        ExcludeDevices                           : # "{{ EMA_ExcludeDevices }}"
+        ExcludeLocations                         : # "{{ EMA_ExcludeLocations }}"
+        ExcludePlatforms                         : # "{{ EMA_ExcludePlatforms }}"
+        ExcludeRoles                             : # "{{ EMA_ExcludeRoles }}"
+        IncludeDevices                           : # "{{ EMA_IncludeDevices }}"
+        IncludeGroups                            : # "{{ EMA_IncludeGroups }}"
+        IncludeLocations                         : # "{{ EMA_IncludeLocations }}"
+        IncludePlatforms                         : # "{{ EMA_IncludePlatforms }}"
+        IncludeRoles                             : # "{{ EMA_IncludeRoles }}"
+        IncludeUserActions                       : # "{{ EMA_IncludeUserActions }}"
+        PersistentBrowserMode                    : "" # "{{ EMA_PersistentBrowserMode }}"
+        SignInFrequencyType                      : "" # "{{ EMA_SignInFrequencyType }}"
+        SignInRiskLevels                         : # "{{ EMA_SignInRiskLevels }}"
+        UserRiskLevels                           : # "{{ EMA_UserRiskLevels }}"
+      register: output
+
+    - name: output ensure multifactor authentication
+      debug:
+        msg: "{{ output }}"
+
+    - name: 5 Block legacy authentication
+      devoteam.o365.win_AADConditionalAccessPolicy:
+        admin_username                           : "{{ admin_username }}"
+        admin_password                           : "{{ admin_password }}"
+
+        Ensure                                   : "{{ BLA_Ensure }}"
+        ExcludeGroups                            : "{{ BreakingGlassGroupName }},{{ BLA_ExcludeGroups }}"
+        ExcludeUsers                             : "{{ BLA_ExcludeUsers }}"
+        DisplayName                              : "{{ BLA_DisplayName }}"
+        ClientAppTypes                           : "{{ BLA_ClientAppTypes }}"
+        BuiltInControls                          : "{{ BLA_BuiltInControls }}"
+        IncludeUsers                             : "{{ BLA_IncludeUsers }}"
+
+        ApplicationEnforcedRestrictionsIsEnabled : False
+        CloudAppSecurityIsEnabled                : False
+        GrantControlOperator                     : OR
+        IncludeApplications                      : None
+        PersistentBrowserIsEnabled               : False
+        SignInFrequencyIsEnabled                 : False
+        State                                    : enabled
+
+        CloudAppSecurityType                     : "" # "{{ BLA_CloudAppSecurityType }}"
+        ExcludeApplications                      : # "{{ BLA_ExcludeApplications }}"
+        ExcludeDevices                           : # "{{ BLA_ExcludeDevices }}"
+        ExcludeLocations                         : # "{{ BLA_ExcludeLocations }}"
+        ExcludePlatforms                         : # "{{ BLA_ExcludePlatforms }}"
+        ExcludeRoles                             : # "{{ BLA_ExcludeRoles }}"
+        IncludeDevices                           : # "{{ BLA_IncludeDevices }}"
+        IncludeGroups                            : # "{{ BLA_IncludeGroups }}"
+        IncludeLocations                         : # "{{ BLA_IncludeLocations }}"
+        IncludePlatforms                         : # "{{ BLA_IncludePlatforms }}"
+        IncludeRoles                             : # "{{ BLA_IncludeRoles }}"
+        IncludeUserActions                       : # "{{ BLA_IncludeUserActions }}"
+        PersistentBrowserMode                    : "" # "{{ BLA_PersistentBrowserMode }}"
+        SignInFrequencyType                      : "" # "{{ BLA_SignInFrequencyType }}"
+        SignInRiskLevels                         : # "{{ BLA_SignInRiskLevels }}"
+        UserRiskLevels                           : # "{{ BLA_UserRiskLevels }}"
+      register: output
+
+    - name: output block legacy authentication
+      debug:
+        msg: "{{ output }}"
+
+
+    - name: 6 Anti-phishing policy
+      devoteam.o365.win_EXOAntiPhishPolicy:
+        admin_username                                : "{{ admin_username }}"
+        admin_password                                : "{{ admin_password }}"
+
+        AuthenticationFailAction                      : "{{ APP_AuthenticationFailAction }}"
+        Enabled                                       : "{{ APP_Enabled }}"
+        EnableFirstContactSafetyTips                  : "{{ APP_EnableFirstContactSafetyTips }}"
+        EnableMailboxIntelligence                     : "{{ APP_EnableMailboxIntelligence }}"
+        EnableMailboxIntelligenceProtection           : "{{ APP_EnableMailboxIntelligenceProtection }}"
+        EnableOrganizationDomainsProtection           : "{{ APP_EnableOrganizationDomainsProtection }}"
+        EnableSimilarDomainsSafetyTips                : "{{ APP_EnableSimilarDomainsSafetyTips }}"
+        EnableSimilarUsersSafetyTips                  : "{{ APP_EnableSimilarUsersSafetyTips }}"
+        EnableSpoofIntelligence                       : "{{ APP_EnableSpoofIntelligence }}"
+        EnableTargetedDomainsProtection               : "{{ APP_EnableTargetedDomainsProtection }}"
+        EnableTargetedUserProtection                  : "{{ APP_EnableTargetedUserProtection }}"
+        EnableUnauthenticatedSender                   : "{{ APP_EnableUnauthenticatedSender }}"
+        EnableUnusualCharactersSafetyTips             : "{{ APP_EnableUnusualCharactersSafetyTips }}"
+        EnableViaTag                                  : "{{ APP_EnableViaTag }}"
+        Ensure                                        : "{{ APP_Ensure }}"
+        Identity                                      : "{{ APP_Identity }}"
+        ImpersonationProtectionState                  : "{{ APP_ImpersonationProtectionState }}"
+        MailboxIntelligenceProtectionAction           : "{{ APP_MailboxIntelligenceProtectionAction }}"
+        MakeDefault                                   : "{{ APP_MakeDefault }}"
+        PhishThresholdLevel                           : "{{ APP_PhishThresholdLevel }}"
+        TargetedUserProtectionAction                  : "{{ APP_TargetedUserProtectionAction }}"
+
+        AdminDisplayName                              : "" # "{{ APP_AdminDisplayName }}"
+        TargetedDomainActionRecipients                :  # "{{ APP_TargetedDomainActionRecipients }}"
+        TargetedDomainsToProtect                      :  # "{{ APP_TargetedDomainsToProtect }}"
+        TargetedUserActionRecipients                  :  # "{{ APP_TargetedUserActionRecipients }}"
+        TargetedUsersToProtect                        :  # "{{ APP_TargetedUsersToProtect }}"
+        MailboxIntelligenceProtectionActionRecipients :  # "{{ APP_MailboxIntelligenceProtectionActionRecipients }}"
+        ExcludedDomains                               :  # "{{ APP_ExcludedDomains }}"
+        ExcludedSenders                               :  # "{{ APP_ExcludedSenders }}"
+      register: output1
+
+    - name: 6 Anti-phishing policy
+      devoteam.o365.win_EXOAntiPhishRule:
+        admin_username                                : "{{ admin_username }}"
+        admin_password                                : "{{ admin_password }}"
+
+        AntiPhishPolicy                               : "{{ APP_Identity }}"
+        Identity                                      : "{{ APP_Identity }}"
+        Enabled                                       : "{{ APP_Enabled }}"
+        Ensure                                        : "{{ APP_Ensure }}"
+
+        Priority                                      : "{{ APP_Priority }}"
+        SentToMemberOf                                : "{{ APP_SentToMemberOf }}@{{ Domaine }}"
+      register: output2
+
+    - name: output Anti-phishing policy
+      debug:
+        msg: "{{ output1 }}"
+
+    - name: output Anti-phishing policy
+      debug:
+        msg: "{{ output2 }}"
+
+    - name: 7 Safe attachments policy
+      devoteam.o365.win_EXOSafeAttachmentPolicy:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Action               : "{{ SAP_Action }}"
+        ActionOnError        : "{{ SAP_ActionOnError }}"
+        AdminDisplayName     : "{{ SAP_AdminDisplayName }}"
+        Enable               : "{{ SAP_Enable }}"
+        Ensure               : "{{ SAP_Ensure }}"
+        Identity             : "{{ SAP_Identity }}"
+        Redirect             : "{{ SAP_Redirect }}"
+        RedirectAddress      : "{{ SAP_RedirectAddress }}@{{ Domaine }}"
+      register: output1
+
+    - name: 7 Safe attachments policy
+      devoteam.o365.win_EXOSafeAttachmentRule:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Enabled              : "{{ SAP_Enabled }}"
+        Ensure               : "{{ SAP_Ensure }}"
+        Identity             : "{{ SAP_Identity }}"
+        Priority             : "{{ SAP_Priority }}"
+        SafeAttachmentPolicy : "{{ SAP_Identity }}"
+        SentToMemberOf       : "{{ SAP_SentToMemberOf }}@{{ Domaine }}"
+
+      register: output2
+
+    - name: output Safe attachments policy
+      debug:
+        msg: "{{ output1 }}"
+
+    - name: output Safe attachments policy
+      debug:
+        msg: "{{ output2 }}"
+
+    - name: 8 Anti-malware filter policy
+      devoteam.o365.win_EXOMalwareFilterPolicy:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Action                                 : "{{ MFP_Action }}"
+        CustomAlertText                        : "{{ MFP_CustomAlertText }}"
+        CustomNotifications                    : "{{ MFP_CustomNotifications }}"
+        EnableExternalSenderAdminNotifications : "{{ MFP_EnableExternalSenderAdminNotifications }}"
+        EnableExternalSenderNotifications      : "{{ MFP_EnableExternalSenderNotifications }}"
+        EnableFileFilter                       : "{{ MFP_EnableFileFilter }}"
+        EnableInternalSenderAdminNotifications : "{{ MFP_EnableInternalSenderAdminNotifications }}"
+        EnableInternalSenderNotifications      : "{{ MFP_EnableInternalSenderNotifications }}"
+        Ensure                                 : "{{ MFP_Ensure }}"
+        FileTypes                              : "{{ MFP_FileTypes }}"
+        Identity                               : "{{ MFP_Identity }}"
+        MakeDefault                            : "{{ MFP_MakeDefault }}"
+        ZapEnabled                             : "{{ MFP_ZapEnabled }}"
+      register: output1
+
+    - name: 8 Anti-malware filter policy
+      devoteam.o365.win_EXOMalwareFilterRule:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Identity             : "{{ MFP_Identity }}"
+        MalwareFilterPolicy  : "{{ MFP_Identity }}"
+        Ensure               : "{{ MFP_Ensure }}"
+        Priority             : "{{ MFP_Priority }}"
+        SentToMemberOf       : "{{ MFP_SentToMemberOf }}@{{ Domaine }}"
+
+      register: output2
+
+    - name: output Malware filter policy
+      debug:
+        msg: "{{ output1 }}"
+
+    - name: output Malware filter policy
+      debug:
+        msg: "{{ output2 }}"
+
+
+    # - name: 9 Email address policy
+    #   devoteam.o365.win_EXOEmailAddressPolicy:
+    #     admin_username       : "{{ admin_username }}"
+    #     admin_password       : "{{ admin_password }}"
+
+    #     EnabledEmailAddressTemplates      : "{{ EAP_EnabledEmailAddressTemplates }}"
+    #     EnabledPrimarySMTPAddressTemplate : "{{ EAP_EnabledPrimarySMTPAddressTemplate }}"
+    #     Ensure                            : "{{ EAP_Ensure }}"
+    #     ManagedByFilter                   : "{{ EAP_ManagedByFilter }}"
+    #     Name                              : "{{ EAP_Name }}"
+    #     Priority                          : "{{ EAP_Priority }}"
+        
+
+    #   register: output
+
+    # - name: output Email address policy
+    #   debug:
+    #     msg: "{{ output }}"

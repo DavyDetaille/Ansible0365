@@ -1,0 +1,49 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   Domaine                : Devoteam449.onmicrosoft.com
+
+  #   #7
+  #   SAP_Action               : "DynamicDelivery"
+  #   SAP_ActionOnError        : True
+  #   SAP_AdminDisplayName     : "2.4 Ensure Safe Attachments for SharePoint, OneDrive, and Microsoft Teams is Enabled"
+  #   SAP_Enable               : True
+  #   SAP_Ensure               : "Present"
+  #   SAP_Identity             : "2.4 Ensure Safe Attachments for SharePoint, OneDrive,... Enabled"
+  #   SAP_Redirect             : True
+  #   SAP_RedirectAddress      : "Tigrou2022"
+
+  #   SAP_Priority             : 0
+  #   SAP_SentToMemberOf       : "Devoteam"
+
+  tasks:
+    - name: 7 Safe attachments policy
+      devoteam.o365.win_EXOSafeAttachmentPolicy:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Action               : "{{ SAP_Action }}"
+        ActionOnError        : "{{ SAP_ActionOnError }}"
+        AdminDisplayName     : "{{ SAP_AdminDisplayName }}"
+        Enable               : "{{ SAP_Enable }}"
+        Ensure               : "{{ SAP_Ensure }}"
+        Identity             : "{{ SAP_Identity }}"
+        Redirect             : "{{ SAP_Redirect }}"
+        RedirectAddress      : "{{ SAP_RedirectAddress }}@{{ Domaine }}"
+
+    - name: 7 Safe attachments policy
+      devoteam.o365.win_EXOSafeAttachmentRule:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Enabled              : "{{ SAP_Enable }}"
+        Ensure               : "{{ SAP_Ensure }}"
+        Identity             : "{{ SAP_Identity }}"
+        Priority             : "{{ SAP_Priority }}"
+        SafeAttachmentPolicy : "{{ SAP_Identity }}"
+        SentToMemberOf       : "{{ SAP_SentToMemberOf }}@{{ Domaine }}"

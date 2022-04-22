@@ -1,0 +1,34 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   Domaine                : Devoteam449.onmicrosoft.com
+
+  #   #10
+  #   SM_Aliases              : 
+  #   SM_DisplayName          : "test"
+  #   SM_Ensure               : "Present"
+  #   SM_PrimarySMTPAddress   : "test"
+
+  tasks:
+    - name: 10 Shared mailbox
+      devoteam.o365.win_EXOSharedMailbox:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        Aliases              : "{{ SM_Aliases }}"
+        DisplayName          : "{{ SM_DisplayName }}"
+        Ensure               : "{{ SM_Ensure }}"
+        PrimarySMTPAddress   : "{{ SM_PrimarySMTPAddress }}"
+
+    - name: 10 Shared mailbox
+      devoteam.o365.win_EXOMailboxSettings:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        DisplayName          : "{{ SM_DisplayName }}"
+        Ensure               : "{{ SM_Ensure }}"

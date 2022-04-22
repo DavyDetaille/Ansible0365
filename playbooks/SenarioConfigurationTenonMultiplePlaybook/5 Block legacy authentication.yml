@@ -1,0 +1,60 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   Domaine                : Devoteam449.onmicrosoft.com
+
+  #   # 3
+  #   BreakingGlassGroupName  : BreakingGlass
+
+  #   # 5
+  #   BLA_Ensure             : "Present"
+  #   BLA_ExcludeGroups      : 
+  #   BLA_ExcludeUsers       : 
+  #   BLA_DisplayName        : "1.1.6 Enable Conditional Access policies to block legacy authentication"
+  #   BLA_ClientAppTypes     : "exchangeActiveSync, other"
+  #   BLA_BuiltInControls    : "block"
+  #   BLA_IncludeUsers       : "All"
+
+  tasks:
+    - name: 5 Block legacy authentication
+      devoteam.o365.win_AADConditionalAccessPolicy:
+        admin_username                           : "{{ admin_username }}"
+        admin_password                           : "{{ admin_password }}"
+
+        Ensure                                   : "{{ BLA_Ensure }}"
+        ExcludeGroups                            : "{{ BreakingGlassGroupName }},{{ BLA_ExcludeGroups }}"
+        ExcludeUsers                             : "{{ BLA_ExcludeUsers }}"
+        DisplayName                              : "{{ BLA_DisplayName }}"
+        ClientAppTypes                           : "{{ BLA_ClientAppTypes }}"
+        BuiltInControls                          : "{{ BLA_BuiltInControls }}"
+        IncludeUsers                             : "{{ BLA_IncludeUsers }}"
+
+        ApplicationEnforcedRestrictionsIsEnabled : False
+        CloudAppSecurityIsEnabled                : False
+        GrantControlOperator                     : OR
+        IncludeApplications                      : None
+        PersistentBrowserIsEnabled               : False
+        SignInFrequencyIsEnabled                 : False
+        State                                    : enabled
+
+        CloudAppSecurityType                     : "" # "{{ BLA_CloudAppSecurityType }}"
+        ExcludeApplications                      : # "{{ BLA_ExcludeApplications }}"
+        ExcludeDevices                           : # "{{ BLA_ExcludeDevices }}"
+        ExcludeLocations                         : # "{{ BLA_ExcludeLocations }}"
+        ExcludePlatforms                         : # "{{ BLA_ExcludePlatforms }}"
+        ExcludeRoles                             : # "{{ BLA_ExcludeRoles }}"
+        IncludeDevices                           : # "{{ BLA_IncludeDevices }}"
+        IncludeGroups                            : # "{{ BLA_IncludeGroups }}"
+        IncludeLocations                         : # "{{ BLA_IncludeLocations }}"
+        IncludePlatforms                         : # "{{ BLA_IncludePlatforms }}"
+        IncludeRoles                             : # "{{ BLA_IncludeRoles }}"
+        IncludeUserActions                       : # "{{ BLA_IncludeUserActions }}"
+        PersistentBrowserMode                    : "" # "{{ BLA_PersistentBrowserMode }}"
+        SignInFrequencyType                      : "" # "{{ BLA_SignInFrequencyType }}"
+        SignInRiskLevels                         : # "{{ BLA_SignInRiskLevels }}"
+        UserRiskLevels                           : # "{{ BLA_UserRiskLevels }}"

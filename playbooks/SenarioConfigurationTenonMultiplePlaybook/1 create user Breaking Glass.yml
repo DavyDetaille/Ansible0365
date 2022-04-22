@@ -1,0 +1,27 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   Domaine                : Devoteam449.onmicrosoft.com
+
+  #   # 1
+  #   BreakingGlassUserNameOne: BreakingGlass1
+  #   BreakingGlassPasswordOne: UoiiHhq65102HxsgUu2Y
+
+  tasks:
+    - name: 1 create user "{{ BreakingGlassUserNameOne }}"
+      devoteam.o365.win_O365User:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+        Ensure               : Present
+        UserPrincipalName    : "{{ BreakingGlassUserNameOne }}@{{ Domaine }}"
+        DisplayName          : "{{ BreakingGlassUserNameOne }}"
+        FirstName            : "{{ BreakingGlassUserNameOne }}"
+        LastName             : "{{ BreakingGlassUserNameOne }}"
+        Password             : "{{ BreakingGlassPasswordOne }}"
+        UserType             : Member
+        IsGlobalAdmin        : True

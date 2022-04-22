@@ -1,0 +1,94 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+    # Domaine                : Devoteam449.onmicrosoft.com
+    # # Subdomain              : Devoteam449
+
+    # GM_AllowBox                         : False
+    # GM_AllowDropBox                     : False
+    # GM_AllowEgnyte                      : False
+    # GM_AllowEmailIntoChannel            : True
+    # GM_AllowGoogleDrive                 : False
+    # GM_AllowGuestUser                   : True
+    # GM_AllowOrganizationTab             : True
+    # GM_AllowResourceAccountSendMessage  : True
+    # GM_AllowScopedPeopleSearchandAccess : False
+    # GM_AllowShareFile                   : False
+    # GM_AllowSkypeBusinessInterop        : True
+    # GM_ContentPin                       : "RequiredOutsideScheduleMeeting"
+    # GM_Identity                         : "Global"
+    # GM_ResourceAccountContentAccess     : "NoAccess"
+
+    # GM_AllowPrivateCalling  : True
+
+    # GM_AllowIPVideo         : True
+    # GM_AllowMeetNow         : True
+    # GM_ScreenSharingMode    : "EntireScreen"
+
+    # GM_AllowGiphy             : True
+    # GM_AllowImmersiveReader   : True
+    # GM_AllowMemes             : True
+    # GM_AllowStickers          : True
+    # GM_AllowUserChat          : True
+    # GM_AllowUserDeleteMessage : True
+    # GM_AllowUserEditMessage   : True
+    # GM_GiphyRatingType        : "Moderate"
+
+  tasks:
+    - name: 14.1 win_TeamsClientConfiguration
+      devoteam.o365.win_TeamsClientConfiguration:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AllowBox                         : "{{ GM_AllowBox }}"
+        AllowDropBox                     : "{{ GM_AllowDropBox }}"
+        AllowEgnyte                      : "{{ GM_AllowEgnyte }}"
+        AllowEmailIntoChannel            : "{{ GM_AllowEmailIntoChannel }}"
+        AllowGoogleDrive                 : "{{ GM_AllowGoogleDrive }}"
+        AllowGuestUser                   : "{{ GM_AllowGuestUser }}"
+        AllowOrganizationTab             : "{{ GM_AllowOrganizationTab }}"
+        AllowResourceAccountSendMessage  : "{{ GM_AllowResourceAccountSendMessage }}"
+        AllowScopedPeopleSearchandAccess : "{{ GM_AllowScopedPeopleSearchandAccess }}"
+        AllowShareFile                   : "{{ GM_AllowShareFile }}"
+        AllowSkypeBusinessInterop        : "{{ GM_AllowSkypeBusinessInterop }}"
+        ContentPin                       : "{{ GM_ContentPin }}"
+        Identity                         : "{{ GM_Identity }}"
+        ResourceAccountContentAccess     : "{{ GM_ResourceAccountContentAccess }}"
+        
+    - name: 14.2 win_TeamsGuestCallingConfiguration
+      devoteam.o365.win_TeamsGuestCallingConfiguration:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AllowPrivateCalling  : "{{ GM_AllowPrivateCalling }}"
+        Identity             : "{{ GM_Identity }}"
+        
+    - name: 14.3 win_TeamsGuestMeetingConfiguration
+      devoteam.o365.win_TeamsGuestMeetingConfiguration:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        AllowIPVideo         : "{{ GM_AllowIPVideo }}"
+        AllowMeetNow         : "{{ GM_AllowMeetNow }}"
+        Identity             : "{{ GM_Identity }}"
+        ScreenSharingMode    : "{{ GM_ScreenSharingMode }}"
+        
+    - name: 14.4 win_TeamsGuestMessagingConfiguration
+      devoteam.o365.win_TeamsGuestMessagingConfiguration:
+        admin_username         : "{{ admin_username }}"
+        admin_password         : "{{ admin_password }}"
+
+        AllowGiphy             : "{{ GM_AllowGiphy }}"
+        AllowImmersiveReader   : "{{ GM_AllowImmersiveReader }}"
+        AllowMemes             : "{{ GM_AllowMemes }}"
+        AllowStickers          : "{{ GM_AllowStickers }}"
+        AllowUserChat          : "{{ GM_AllowUserChat }}"
+        AllowUserDeleteMessage : "{{ GM_AllowUserDeleteMessage }}"
+        AllowUserEditMessage   : "{{ GM_AllowUserEditMessage }}"
+        GiphyRatingType        : "{{ GM_GiphyRatingType }}"
+        Identity               : "{{ GM_Identity }}"

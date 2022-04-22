@@ -1,0 +1,36 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  # vars:
+  #   Domaine                : Devoteam449.onmicrosoft.com
+
+  #   # 1
+  #   BreakingGlassUserNameOne: BreakingGlass1
+
+  #   # 2
+  #   BreakingGlassUserNameTwo: BreakingGlass2
+
+  #   # 3
+  #   BreakingGlassGroupName  : BreakingGlass
+
+  tasks:
+    - name: 3 create group "{{ BreakingGlassGroupName }}"
+      devoteam.o365.win_AADGroup:
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
+        Ensure        : Present
+
+        Description                   : This is the group for breaking glass user
+        DisplayName                   : "{{ BreakingGlassGroupName }}"
+        GroupTypes                    : "DynamicMembership"
+        MailEnabled                   : False
+        MailNickname                  : "{{ BreakingGlassGroupName }}"
+        MembershipRule                : ((user.userPrincipalName -eq "{{ BreakingGlassUserNameOne }}@{{ Domaine }}") and (user.displayName -eq "{{ BreakingGlassUserNameOne }}")) or ((user.userPrincipalName -eq "{{ BreakingGlassUserNameTwo }}@{{ Domaine }}") and (user.displayName -eq "{{ BreakingGlassUserNameTwo }}"))
+        MembershipRuleProcessingState : "On"
+        SecurityEnabled               : True
+
+        Visibility                    : Private

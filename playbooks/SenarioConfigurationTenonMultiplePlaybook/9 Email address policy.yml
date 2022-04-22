@@ -1,0 +1,30 @@
+- hosts: Windows
+  gather_facts: false
+
+  vars_files:
+    - ../../vars/vault.yml
+    - ../../vars/vars.yml
+
+  vars:
+  #   Domaine                : Devoteam449.onmicrosoft.com
+
+  #   #9
+  #   EAP_EnabledEmailAddressTemplates      : "SMTP:@{{ Domaine }}"
+  #   EAP_EnabledPrimarySMTPAddressTemplate : "@{{ Domaine }}"
+  #   EAP_Ensure                            : "Present"
+    EAP_ManagedByFilter                   : ""
+  #   EAP_Name                              : "Email address policy"
+  #   EAP_Priority                          : "Lowest"
+
+  tasks:
+    - name: 9 Email address policy
+      devoteam.o365.win_EXOEmailAddressPolicy:
+        admin_username       : "{{ admin_username }}"
+        admin_password       : "{{ admin_password }}"
+
+        EnabledEmailAddressTemplates      : "{{ EAP_EnabledEmailAddressTemplates }}"
+        EnabledPrimarySMTPAddressTemplate : "{{ EAP_EnabledPrimarySMTPAddressTemplate }}"
+        Ensure                            : "{{ EAP_Ensure }}"
+        ManagedByFilter                   : "{{ EAP_ManagedByFilter }}"
+        Name                              : "{{ EAP_Name }}"
+        Priority                          : "{{ EAP_Priority }}"
